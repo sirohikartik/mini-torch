@@ -1,5 +1,5 @@
 # mini-torch
-
+## Docs : https://sirohikartik.github.io/mini-torch/docs.html
 
 mini-torch is a minimal deep learning framework built from scratch in Python.
 It implements reverse-mode automatic differentiation, a dynamic computation
