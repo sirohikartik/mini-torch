@@ -44,9 +44,4 @@ print(a.grad)
 print(b.grad)
 ```
 
-mini-torch/
-├── tensor.py        # Core Tensor class and autograd engine
-├── optim.py         # SGD optimizer (with momentum)
-├── mlp.py        # Simple MLP model with Training loop 
-└── README.md
 
