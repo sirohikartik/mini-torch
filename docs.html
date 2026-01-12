@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mini-torch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        h1, h2, h3 {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            margin-top: 3rem;
+            font-size: 1.75rem;
+        }
+
+        p {
+            color: #cbd5f5;
+            max-width: 800px;
+        }
+
+        code {
+            background: #020617;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e2e8f0;
+        }
+
+        pre {
+            background: #020617;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #e2e8f0;
+        }
+
+        .section {
+            margin-top: 2.5rem;
+        }
+
+        .footer {
+            margin-top: 5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>mini-torch</h1>
+        <p>
+            mini-torch is a minimal deep learning framework built from scratch in Python.
+            It implements reverse-mode automatic differentiation, a dynamic computation graph,
+            and a basic neural network training pipeline.
+        </p>
+
+        <div class="section">
+            <h2>Core Idea</h2>
+            <p>
+                Every computation builds a graph of Tensor objects.
+                Each Tensor stores its data, gradient, and a local backward function.
+                During backpropagation, gradients flow backward through this graph using
+                the chain rule.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>The Tensor</h2>
+            <p>
+                Tensor is the fundamental data structure.
+                It represents both values and nodes in the computation graph.
+            </p>
+
+            <pre>
+class Tensor:
+    def __init__(self, data):
+        self.data = np.array(data, dtype=float)
+        self.grad = np.zeros_like(self.data)
+        self._backward = lambda: None
+        self.children = ()
+            </pre>
+
+            <p>
+                Every operation between Tensors creates a new Tensor and defines how gradients
+                should flow back to its parents.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Automatic Differentiation</h2>
+            <p>
+                mini-torch uses reverse-mode automatic differentiation.
+                During the forward pass, the computation graph is built dynamically.
+                During the backward pass, the graph is traversed in reverse topological order.
+            </p>
+
+            <pre>
+loss.backward()
+            </pre>
+
+            <p>
+                This computes gradients for every Tensor that contributed to the loss.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Neural Networks</h2>
+            <p>
+                Neural networks are built by composing Tensors.
+                Parameters are ordinary Tensors that are updated by an optimizer.
+            </p>
+
+            <pre>
+x = x @ W + b
+x = x.relu()
+x = x @ W2 + b2
+            </pre>
+
+            <p>
+                There is no special parameter type.
+                Any Tensor can be optimized.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Optimization</h2>
+            <p>
+                mini-torch includes stochastic gradient descent with momentum.
+                The optimizer updates parameters using their gradients after backpropagation.
+            </p>
+
+            <pre>
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()
+            </pre>
+        </div>
+
+        <div class="section">
+            <h2>Design Philosophy</h2>
+            <p>
+                mini-torch prioritizes clarity over performance.
+                It intentionally avoids advanced features like broadcasting in backward passes
+                or GPU acceleration.
+            </p>
+
+            <p>
+                The goal is to make the mechanics of modern deep learning frameworks explicit
+                and understandable.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>
+                mini-torch is an educational project inspired by PyTorch and micrograd.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
