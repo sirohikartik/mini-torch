@@ -22,6 +22,7 @@ The project is designed for learning and experimentation, not performance.
   - Sum reduction
 - Backpropagation via topological sorting
 - SGD optimizer with momentum
+- Adam optimizer
 - Simple multi-layer perceptron (MLP)
 - End-to-end training loop
 
