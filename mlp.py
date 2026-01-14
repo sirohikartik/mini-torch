@@ -1,7 +1,7 @@
 import numpy as np
 import math
 from tensor import Tensor
-from optim import SGD
+from optim import SGD,Adam
 class MLP():
     def __init__(self,input,output):
         self.fc1 = Tensor(np.random.randn(input,10))
@@ -19,15 +19,15 @@ class MLP():
 
 # collecting training data let's approximate sin(x)
 
-train = np.arange(1,1000)
+train = np.arange(1,100)
 train = np.array([[i] for i in train])
 label = np.array([math.sin(i[0]) for i in train])
 
 
 model = MLP(1,1)
-
-optimizer = SGD(model.params(),0.1)
-epochs = 100
+L = []
+optimizer = Adam(model.params(),0.01)
+epochs = 1000
 for epoch in range(epochs):
     losses = []
     for i in range(len(train)):
@@ -41,7 +41,15 @@ for epoch in range(epochs):
         loss.backward()
         optimizer.step()
         losses.append(loss.data)
+    L.append(np.array(losses).mean())
     print(f"{epoch}/{epochs} {np.array(losses).mean()}")
 
-input = [3.14]
-print(model.forward(Tensor([input])).data)
+input = [[3.14],[1.57],[6.28]]
+for i in input:
+    print(model.forward(Tensor([i])).data)
+
+import matplotlib.pyplot as plt
+
+plt.plot(L)
+plt.show()
+
